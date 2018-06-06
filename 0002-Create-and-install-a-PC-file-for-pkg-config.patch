@@ -1,0 +1,56 @@
+From 78ebf9d87a6938b5ace0825462bc44f9294c30cb Mon Sep 17 00:00:00 2001
+From: Brandon Hong <brandon.hong@intel.com>
+Date: Mon, 28 May 2018 10:14:18 +0000
+Subject: [PATCH 2/3] Create and install a PC file for pkg-config
+
+This patch creates libmd.pc and installs it to lib/pkgconfig/.
+
+e.g)
+ $ pkg-config --cflags --libs libmd
+ -I/usr/local/include/mdapi -L/usr/local/lib -lmd
+
+Signed-off-by: Brandon Hong <brandon.hong@intel.com>
+---
+ CMakeLists.txt |  7 +++++++
+ libmd.pc.in    | 11 +++++++++++
+ 2 files changed, 18 insertions(+)
+ create mode 100644 libmd.pc.in
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6cf41d0..f76b6c7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -212,6 +212,13 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY SOVERSION ${MD_VERSION_MAJOR})
+ # INSTALL
+ #################################################################################
+ 
++# libmd.pc for pkg-config
++set(DEST_DIR ${CMAKE_INSTALL_PREFIX})
++set(LIB -l${PROJECT_NAME}) # -lmd
++set(MD_VERSION ${MD_VERSION})
++configure_file(libmd.pc.in ${CMAKE_BINARY_DIR}/libmd.pc @ONLY)
++install (FILES ${CMAKE_BINARY_DIR}/libmd.pc DESTINATION lib/pkgconfig)
++
+ install (TARGETS ${PROJECT_NAME} DESTINATION lib)
+ install (FILES "${BS_DIR_INC}/common/instrumentation/api/metrics_discovery_api.h" DESTINATION include)
+ 
+diff --git a/libmd.pc.in b/libmd.pc.in
+new file mode 100644
+index 0000000..eb78b2a
+--- /dev/null
++++ b/libmd.pc.in
+@@ -0,0 +1,11 @@
++prefix=@DEST_DIR@
++exec_prefix=${prefix}
++libdir=${prefix}/lib
++includedir=${prefix}/include
++
++Name: Intel(R) Metrics Discovery Application Programming Interface
++Description: This software is a user mode library that provides access to GPU performance data.
++Version: @MD_VERSION@
++
++Libs: -L${libdir} @LIB@
++Cflags: -I${includedir}/mdapi
+-- 
+2.17.0
+

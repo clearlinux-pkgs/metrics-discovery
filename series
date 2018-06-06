@@ -1,0 +1,3 @@
+0001-cmake-Set-lib-version-property-based-on-header-data.patch
+0002-Create-and-install-a-PC-file-for-pkg-config.patch
+0003-Refer-LIB_INSTALL_DIR-and-LIB_SUFFIX-for-installatio.patch

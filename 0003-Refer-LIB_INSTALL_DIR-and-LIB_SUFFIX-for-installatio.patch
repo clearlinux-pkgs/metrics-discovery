@@ -1,0 +1,36 @@
+From 9dfb207bd0b580f9cb9938a47ba3e3082cad1a3f Mon Sep 17 00:00:00 2001
+From: Brandon Hong <brandon.hong@intel.com>
+Date: Mon, 4 Jun 2018 16:37:58 +0800
+Subject: [PATCH 3/3] Refer LIB_INSTALL_DIR and LIB_SUFFIX for installation
+ directory
+
+This patch allows to use LIB_INSTALL_DIR and LIB_SUFFIX variables to specify
+installation directory.
+
+Signed-off-by: Brandon Hong <brandon.hong@intel.com>
+---
+ CMakeLists.txt | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f76b6c7..b999495 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -219,8 +219,12 @@ set(MD_VERSION ${MD_VERSION})
+ configure_file(libmd.pc.in ${CMAKE_BINARY_DIR}/libmd.pc @ONLY)
+ install (FILES ${CMAKE_BINARY_DIR}/libmd.pc DESTINATION lib/pkgconfig)
+ 
+-install (TARGETS ${PROJECT_NAME} DESTINATION lib)
+-install (FILES "${BS_DIR_INC}/common/instrumentation/api/metrics_discovery_api.h" DESTINATION include)
++# Library/header
++if (${LIB_INSTALL_DIR} STREQUAL "")
++     set(LIB_INSTALL_DIR lib${LIB_SUFFIX})
++endif ()
++install (TARGETS ${PROJECT_NAME} DESTINATION ${LIB_INSTALL_DIR})
++install (FILES "${BS_DIR_INC}/common/instrumentation/api/metrics_discovery_api.h" DESTINATION include/mdapi)
+ 
+ #################################################################################
+ # DEBUG
+-- 
+2.17.0
+

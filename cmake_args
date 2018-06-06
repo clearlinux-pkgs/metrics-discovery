@@ -1,0 +1,1 @@
+-DMD_PLATFORM=linux -DMD_BUILD_TYPE=release
