@@ -455,5 +455,4 @@ libmd.so.1:iu_strcpy_s
 libmd.so.1:iu_strlen
 libmd.so.1:iu_strncpy_s
 libmd.so.1:iu_strtok_s
-libmd.so.1:iu_strtoull
 libmd.so.1:iu_vsnprintf
