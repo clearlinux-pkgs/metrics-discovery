@@ -4,7 +4,7 @@
 #
 Name     : metrics-discovery
 Version  : 1.5.96
-Release  : 2
+Release  : 3
 URL      : https://github.com/intel/metrics-discovery/archive/metrics-discovery-1.5.96.tar.gz
 Source0  : https://github.com/intel/metrics-discovery/archive/metrics-discovery-1.5.96.tar.gz
 Summary  : This software is a user mode library that provides access to GPU performance data.
