@@ -4,7 +4,7 @@
 #
 Name     : metrics-discovery
 Version  : 1.5.108
-Release  : 4
+Release  : 5
 URL      : https://github.com/intel/metrics-discovery/archive/metrics-discovery-1.5.108/metrics-discovery-1.5.108.tar.gz
 Source0  : https://github.com/intel/metrics-discovery/archive/metrics-discovery-1.5.108/metrics-discovery-1.5.108.tar.gz
 Summary  : This software is a user mode library that provides access to GPU performance data.
@@ -14,6 +14,7 @@ Requires: metrics-discovery-lib = %{version}-%{release}
 Requires: metrics-discovery-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : mesa-dev
+Patch1: 0001-md_internal.h-Added-string-C-header-API.patch
 
 %description
 # Intel(R) Metrics Discovery Application Programming Interface
@@ -51,13 +52,14 @@ license components for the metrics-discovery package.
 %prep
 %setup -q -n metrics-discovery-metrics-discovery-1.5.108
 cd %{_builddir}/metrics-discovery-metrics-discovery-1.5.108
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1579208201
+export SOURCE_DATE_EPOCH=1605415880
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -65,15 +67,15 @@ export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %cmake .. -DMD_PLATFORM=linux -DMD_BUILD_TYPE=release
-make  %{?_smp_mflags}  VERBOSE=1
+make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1579208201
+export SOURCE_DATE_EPOCH=1605415880
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/metrics-discovery
 cp %{_builddir}/metrics-discovery-metrics-discovery-1.5.108/LICENSE.md %{buildroot}/usr/share/package-licenses/metrics-discovery/24ebc22b6e51adf8b01ec0340b69fc7dd2178c1d
